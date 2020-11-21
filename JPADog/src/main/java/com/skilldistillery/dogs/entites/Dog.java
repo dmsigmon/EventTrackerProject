@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class Dog {
 
@@ -28,6 +30,7 @@ public class Dog {
 	@Column(name = "image_url")
 	private String imageUrl;
 	
+	@CreationTimestamp
 	@Column(name = "date_created")
 	private LocalDateTime dateCreated;
 
