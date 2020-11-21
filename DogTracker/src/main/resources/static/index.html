@@ -6,6 +6,37 @@
     <script type="text/javascript" src="js/eventTracker.js"></script>
   </head>
   <body>
+    <hr />
     <h1>Dog Tracker</h1>
+    <hr />
+
+    <form name="dogForm">
+      <input type="number" name="dogId" />
+      <button name="lookup">Get Dog by Id</button>
+    </form>
+    <div id = "dogData"></div>
+    <br>
+    <br>
+    <form name="deleteDogForm">
+        <input type="number" name="deletedDogId" />
+        <button name="delete">Delete Dog by Id</button>
+    </form>
+    <br>
+    <br>
+
+    <form name="newDogForm">
+      <input type="text" name="name" placeholder="name" /><br />
+      <input type="text" name="breed" placeholder="breed" /><br />
+      <input type="text" name="size" placeholder="size S/M/L/XL" /><br />
+      <input type="text" name="aggressive" placeholder="Y/N" /><br />
+      <input type="text" name="image" placeholder="Image Address" /><br />
+      <input
+        type="text"
+        size="50"
+        name="description"
+        placeholder="description"
+      /><br />
+      <button name="submit">Create Dog</button>
+    </form>
   </body>
 </html>
