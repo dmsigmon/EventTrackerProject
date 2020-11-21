@@ -13,14 +13,22 @@ function init() {
 		getDog(dogId);
 	}
   });
+  
   document.newDogForm.submit.addEventListener('click', function(e){
 	  e.preventDefault();
 	  postDog(e);
   });
+  
   document.deleteDogForm.delete.addEventListener('click', function(e){
 	  e.preventDefault();
 	  var deletedDogId = document.deleteDogForm.deletedDogId.value;
 	  deleteDog(deletedDogId);
+  });
+
+  document.updateForm.update.addEventListener('click', function(e){
+	  e.preventDefault();
+	  var updatedDogId = document.dogForm.dogId.value;
+	  updateDog(updatedDogId);
   });
 }
 
@@ -71,6 +79,15 @@ function displayDog(dog) {
 	var li3 = document.createElement('li');
 	dataDiv.appendChild(li3);
 	li3.textContent = 'Aggressive: ' + dog.aggressive;
+
+	let btn = document.createElement('button');
+	btn.innerHTML = 'Update Dog';
+	btn.addEventListener('click', getDogInfoForUpdate(dog));
+
+	document.updateForm.update.addEventListener('click', function(e) {
+		e.preventDefault();
+		// updateDog(dog.dogId);
+	  })
 }
 
 function postDog(e) {
@@ -98,11 +115,30 @@ function postDog(e) {
 	xhr.send(JSON.stringify(newDog));
 }
 
-// XPathResult.open('PUT', 'api/dogs/' + dogId);
-// xhr.send(JSON.stringify(updatedDog))
-function updateDog(e) {
-	let xhr = new XMLHttpRequest;
-
+function updateDog(dogId) {
+	let form = document.updateForm;
+	let updatedDog = {
+		name: form.name.value,
+		breed: form.breed.value,
+		size: form.size.value,
+		aggressive: form.aggressive.value,
+		image: form.image.value
+	};
+	let xhr = new XMLHttpRequest();
+	xhr.open('PUT', `api/dogs/${dogId}`);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState === 4) {
+			if(xhr.status == 200 || xhr.status == 201) {
+				updatedDog = JSON.parse(xhr.responseText);
+				displayDog(updatedDog);
+			} else {
+				console.error(xhr.status + ': ' + xhr.responseText);
+			}
+		}
+	};
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify(updatedDog));
+	updateForm.reset();
 }
 
 function deleteDog(dogId) {
@@ -113,7 +149,6 @@ function deleteDog(dogId) {
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState === 4 ){
 			if(xhr.status === 204){
-				// let dog = JSON.parse(xhr.responseText);
 				div.textContent = "Dog Deleted";
 			}
 			else{
@@ -122,4 +157,15 @@ function deleteDog(dogId) {
 		}
 	};
 	xhr.send();
+}
+
+function getDogInfoForUpdate(dog){
+	var updateForm = document.updateForm;
+	updateForm.id.value = dog.id;
+	updateForm.description.value = dog.description;
+	updateForm.name.value = dog.name;
+	updateForm.breed.value = dog.breed;
+	updateForm.size.value = dog.size;
+	updateForm.aggressive.value = dog.aggressive;
+
 }
