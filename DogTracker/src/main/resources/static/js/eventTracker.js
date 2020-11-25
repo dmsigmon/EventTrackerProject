@@ -1,6 +1,7 @@
 window.addEventListener("load", function () {
   console.log("Script loaded");
   init();
+  getAlldogs();
 });
 
 function init() {
@@ -29,6 +30,71 @@ function init() {
     e.preventDefault();
     var updatedDogId = document.dogForm.dogId.value;
     updateDog(updatedDogId);
+  });
+
+}
+
+function getAlldogs(){
+	let xhr = new XMLHttpRequest();
+	xhr.open("GET", 'api/dogs');
+	xhr.onreadystatechange = function () {
+	  if (xhr.readyState === 4) {
+		  var dogs = JSON.parse(xhr.responseText);
+		//   displayAllDogs(dogs);
+	  }
+	};
+	xhr.send();
+}
+
+function displayAllDogs(dogs) {
+  let counter = 0;
+  let dogCounter = document.createElement("h4");
+
+  var dataDiv = document.getElementById("dogData");
+  dataDiv.textContent = "";
+
+  for (let index = 0; index < dogs.length; index++) {
+  		counter++;
+
+    var h2 = document.createElement("h2");
+    dataDiv.appendChild(h2);
+    h2.textContent = dog.name;
+
+    var img = document.createElement("img");
+    img.src = dog.imageUrl;
+    img.width = 300;
+    img.height = 300;
+    dataDiv.appendChild(img);
+
+    var bq = document.createElement("blockquote");
+    dataDiv.appendChild(bq);
+    bq.textContent = dog.description;
+
+    var ul = document.createElement("ul");
+    dataDiv.appendChild(ul);
+
+    var li1 = document.createElement("li");
+    dataDiv.appendChild(li1);
+    li1.textContent = "Breed: " + dog.breed;
+
+    var li2 = document.createElement("li");
+    dataDiv.appendChild(li2);
+    li2.textContent = "Size: " + dog.size;
+
+    var li3 = document.createElement("li");
+    dataDiv.appendChild(li3);
+    li3.textContent = "Aggressive: " + dog.aggressive;
+  }
+	  dogCounter.textContent = counter + ' dogs available';
+	  dataDiv.appendChild(dogCounter);
+
+  let btn = document.createElement("button");
+  btn.innerHTML = "Update Dog";
+  btn.addEventListener("click", getDogInfoForUpdate(dog));
+
+  document.updateForm.update.addEventListener("click", function (e) {
+    e.preventDefault();
+    // updateDog(dog.dogId);
   });
 }
 

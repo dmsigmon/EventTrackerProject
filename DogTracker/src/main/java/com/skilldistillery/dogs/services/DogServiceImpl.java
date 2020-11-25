@@ -43,7 +43,6 @@ public class DogServiceImpl implements DogService {
 			}
 			if (dog.getDescription() != null) {
 				updatedDog.setDescription(dog.getDescription());
-				;
 			}
 			if (dog.getImageUrl() != null) {
 				updatedDog.setImageUrl(dog.getImageUrl());
